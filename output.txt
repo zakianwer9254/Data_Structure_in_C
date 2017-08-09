@@ -1,0 +1,4 @@
+Polynomial 1 :
+Total number of terms : coefficient and exponent : coefficient and exponent : coefficient and exponent : 
+Polynomial 2 :
+Total number of terms : coefficient and exponent : coefficient and exponent : coefficient and exponent : coefficient and exponent : 6x^5+2x^4+7x^3+2x^2+7x^1
