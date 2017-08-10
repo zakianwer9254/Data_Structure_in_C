@@ -12,7 +12,7 @@ struct node{
 	struct node *next;
 };
 
-struct node *head[2];
+struct node *head[4];
 
 
 void insert(int x, int y, int i){
@@ -26,7 +26,7 @@ void insert(int x, int y, int i){
 	else{
 		struct node *p=head[i];
 
-		/*while(p->next!=NULL){
+		while(p->next!=NULL){
 			if(p->next->exp>y){
 				p=p->next;
 				continue;
@@ -38,18 +38,35 @@ void insert(int x, int y, int i){
 				p->next=temp;
 				break;
 			}
+			if(p->next->exp==y){
+				p->next->coef+=x;
+				break;
+			}
 		}
 		if(p->next==NULL){
-			temp->coef=x;
-			temp->exp=y;
-			temp->next=NULL;
-			p=temp;
+			if(p->exp>y){
+				temp->coef=x;
+				temp->exp=y;
+				temp->next=NULL;
+				p->next=temp;
+			}
+			else if(p->exp<y){
+				temp->coef=x;
+				temp->exp=y;
+				temp->next=p;
+				head[i]=p;
+				//break;
+			}
+			else if(p->exp==y){
+				p->coef+=x;
+				//break;
+			}
 		}
 
-*/
+
 
 		
-		while(p->next!=NULL){
+	/*	while(p->next!=NULL){
 
 			p=p->next;
 		}
@@ -57,7 +74,8 @@ void insert(int x, int y, int i){
 		temp->exp=y;
 		temp->next=NULL;
 		p->next=temp;
-	}
+	}*/
+}
 }
 
 void add_poly(int x, int y, int length_1, int length_2){
@@ -97,8 +115,24 @@ void add_poly(int x, int y, int length_1, int length_2){
 	}
 }
 
-void result(){
-	struct node *p=head[2];
+
+void multiply(int x, int y, int l1, int l2){
+	struct node *p = head[x];
+	
+	for(int i=0; i<l1; i++){
+		struct node *q = head[y];
+		for(int j=0; j<l2; j++){
+			insert(p->coef*q->coef,p->exp+q->exp,3);
+			q=q->next;
+		}
+		p=p->next;
+	}
+}
+
+
+
+void result(int i){
+	struct node *p=head[i];
 	while(p!=NULL){
 		printf("%dx^%d",p->coef,p->exp);
 		if(p->next!=NULL)
@@ -109,7 +143,7 @@ void result(){
 
 int main(){
 
-	for(int i=0; i<2; i++)
+	for(int i=0; i<4; i++)
 		head[i]=NULL;
 
 	int length_first,length_second,x,y;
@@ -136,7 +170,11 @@ int main(){
 
 	add_poly(0,1,length_first,length_second);
 
-	result();
+	result(2);
+
+	multiply(0,1,length_first,length_second);
+	printf("\n");
+	result(3);
 
 	return 0;
 }
