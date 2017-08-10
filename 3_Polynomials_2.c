@@ -64,7 +64,7 @@ void add_poly(int x, int y, int length_1, int length_2){
 	struct node *p = head[x];
 	struct node *q = head[y];
 	
-		while(p!=NULL || q!=NULL){
+		while(p!=NULL && q!=NULL){
 			if(p->exp>q->exp){
 				insert(p->coef,p->exp,2);
 				p=p->next;
