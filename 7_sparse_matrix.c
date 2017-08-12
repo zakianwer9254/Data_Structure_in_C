@@ -101,11 +101,46 @@ void add(int x, int y, int z){
 
 }
 
+int find_multiplicable(int x, int y){
+	struct node *p = head[x];
+	while(p!=NULL){
+		if(p->index==y)
+			return p->value;
+		p=p->next;
+	}
+	return 0;
+}
+
+
+void multiply(int n){
+	for(int i=0;i<n; i++){
+		int temp=0;
+		//int mul_index=p->index;
+		for(int j=0; j<n; j++){
+			temp=0;
+			struct node *p = head[i];
+			while(p!=NULL){
+				int res;
+				res=find_multiplicable(p->index+n,j);
+				if(res!=0){
+					temp+=p->value*res;
+				}
+				p=p->next;
+			}
+			if(temp!=0)
+				insert(i+3*n,j,temp);
+		}
+		
+
+	}
+}
+
+
 int main(){
 	int no_of_elements;
 	printf("Matrix dimension : ");
 	scanf("%d",&n);
-	for(int i=0; i<3*n; i++){
+	for(int i=0; i<4*n; i++){
 		head[i]=NULL;
 	}
 
@@ -146,6 +181,11 @@ int main(){
 	for(int i=2*n; i<3*n; i++)
 		show(i,n);
 
+	multiply(n);
+
+	printf("\n");
+	for(int i=3*n; i<4*n; i++)
+		show(i,n);
 
 
 	return 0;
