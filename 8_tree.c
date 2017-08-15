@@ -15,50 +15,70 @@ struct node{
 struct node *root = NULL;
 //struct node *p=root;
 
-void makeTree(struct node *p,char *str,int i){
-	struct node * temp= (struct node*)malloc(sizeof(struct node));
-	
-	if(str[i]=='('){
-		makeTree(p->left,str,++i);
-		makeTree(p->right,str,++i);
-		i++;
-		return
-	}
-	if(str[i]==')' || str[i]=='\0')
-		return
 
-	temp->value=str[i]
-	temp->left=NULL;
-	temp->right=NULL;
-	p=temp;
-
-
-	temp->value=str[i]
-	temp->left=NULL;
-	temp->right=NULL;
-	p->left=temp;
-
-	temp->value=str[i+1]
-	temp->left=NULL;
-	temp->right=NULL;
-	p->right=temp;
-	i++;
-}
 
 
 int main(){
-	printf("enter nodes level wise, * for null\n");
-	char *str = (char*)malloc(sizeof(char));
-	int temp=0;
-	int c,i=0;
-	while((c=getchar())!=EOF){
-		str[i++]=c;
-		str=realloc(str,i+sizeof(char));
+
+	int x='a';
+	if(x==97)
+		printf("%d\n",')');
+	else
+		printf("something\n");
+
+	char *s;
+	int ans,val;
+	s=(char *)malloc(sizeof(char));
+	
+	while((ans=get(s))!=EOF){
+		int temp;
+		switch(ans){
+			case '0':
+			printf("%d\n",atoi(s));
+			break;
+			case '(':
+			printf("its +\n");
+			break;
+			case ')' :
+			printf("its -\n");
+			break;
+			default:
+			printf("others\n");
+
+		}
 	}
 
-	makeTree(root,str,0);
-
-	printf("%s\n",str);
-
+	return 0;
+}
+int buffer=0;
+int get(char *s){
+	int i=0,c,size=1;
+	s=(char *)realloc(s,++size*sizeof(char));
+	while((s[i]=c=getch())==' ' || c=='\t');
+	s[1]='\0';
+	if(!isdigit(c))
+		return c;
+	if(isdigit(c)){
+		s=(char *)realloc(s,++size*sizeof(char));
+		while(isdigit(s[++i]=c=getch()))
+			s=(char *)realloc(s,++size*sizeof(char));
+	}
+	s[++i]='\0';
+	if(c!=EOF)
+		ungetch(c);
+	return '0';
 }
 
+void getch(){
+	if(buffer!=0){
+		int x=buffer;
+		buffer=0;
+		return x;
+	}
+	else
+		getchar();
+}
+
+void ungetch(c){
+	buffer=c;
+}
