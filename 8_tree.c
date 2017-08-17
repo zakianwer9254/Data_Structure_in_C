@@ -13,40 +13,66 @@ struct node{
 };
 
 struct node *root = NULL;
-//struct node *p=root;
 
 
+struct node* insert(struct node *p, int ans){
+	struct node *temp = (struct node *)malloc(sizeof(struct node));
+	if(ans==-1)
+		p=NULL;
+	else{
+		temp->value=ans;
+		temp->left=NULL;
+		temp->right=NULL;
+		p=temp;
+	}
+	return p;
+}
 
+void traverse(struct node *p){
+	while(p!=NULL){
+		traverse(p->left);
+		printf("%d ",p->value);
+		traverse(p->right);
+	}
+}
+
+void makeTree(char *s,struct node *p){
+
+	int ans;
+	int temp;
+	while((ans=get(s))!=EOF){
+		if(ans=='('){
+			ans=get(s);
+			temp=atoi(s);
+			p=insert(p,temp);
+			
+			makeTree(s,p->left);
+			makeTree(s,p->right);
+			return;
+		}
+		else if(ans=='0'){
+			p=insert(p,atoi(s));
+			
+			return;
+		}
+		else if(ans=='*'){
+			insert(p,-1);
+			return;
+		}		
+	}
+}
 
 int main(){
-
-	int x='a';
-	if(x==97)
-		printf("%d\n",')');
-	else
-		printf("something\n");
 
 	char *s;
 	int ans,val;
 	s=(char *)malloc(sizeof(char));
-	
-	while((ans=get(s))!=EOF){
-		int temp;
-		switch(ans){
-			case '0':
-			printf("%d\n",atoi(s));
-			break;
-			case '(':
-			printf("its +\n");
-			break;
-			case ')' :
-			printf("its -\n");
-			break;
-			default:
-			printf("others\n");
 
-		}
-	}
+	struct node *p = root;
+	
+	makeTree(s,p);
+
+	traverse(root);
 
 	return 0;
 }
